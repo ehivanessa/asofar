@@ -1,7 +1,7 @@
 [project]
 name = "asofar"
 version = "0.1.0"
-description = "A reading companion that answers questions about a book using only the portion you have already read. "
+description = "A reading companion that answers questions about a book using only the portion you have already read."
 readme = "README.md"
 authors = [
     { name = "Vanessa Kingsley", email = "ehivanessa25@gmail.com" }
