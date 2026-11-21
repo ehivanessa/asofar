@@ -7,7 +7,9 @@ authors = [
     { name = "Vanessa Kingsley", email = "ehivanessa25@gmail.com" }
 ]
 requires-python = ">=3.11"
-dependencies = []
+dependencies = [
+    "pydantic>=2.14.4",
+]
 
 [project.scripts]
 asofar = "asofar:main"
