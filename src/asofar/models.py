@@ -4,6 +4,11 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 
 class Book(BaseModel):
+    """A book from Project Gutenberg, as its header describes it.
+
+    The database adds `id` and `ingested_at` later; they are not part of this model.
+    """
+
     model_config = ConfigDict(frozen=True, extra="forbid")
 
     gutenberg_id: int = Field(gt=0)
@@ -14,6 +19,14 @@ class Book(BaseModel):
 
 
 class TextUnit(BaseModel):
+    """One paragraph of a book, the unit every position in the project refers to.
+
+    `sequence` is its 0-based place among the book's paragraphs. `char_start` and
+    `char_end` are character offsets into the original text, and `char_end` is
+    exclusive like a slice, so a paragraph is never empty. `chapter_number` counts
+    from 1 and is `None` for text outside any chapter.
+    """
+
     model_config = ConfigDict(frozen=True, extra="forbid")
 
     sequence: int = Field(ge=0)
@@ -25,6 +38,7 @@ class TextUnit(BaseModel):
 
     @model_validator(mode="after")
     def check_char_span(self) -> Self:
+        """Reject a span that ends at or before the character where it starts."""
         if self.char_end <= self.char_start:
             raise ValueError("char_end must be greater than char_start")
         return self
